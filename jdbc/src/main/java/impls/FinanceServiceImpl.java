@@ -2,16 +2,23 @@ package impls;
 
 import finance.Expense;
 import finance.Income;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import repositories.ExpenseRepository;
 import repositories.IncomeRepository;
 import services.FinanceService;
 
 import java.util.List;
 
+@Component
 public class FinanceServiceImpl implements FinanceService {
 
+    @Autowired
     private IncomeRepository incomeRepository;
+
+    @Autowired
     private ExpenseRepository expenseRepository;
+
     @Override
     public List<Income> getIncomes() {
         return incomeRepository.findAll();

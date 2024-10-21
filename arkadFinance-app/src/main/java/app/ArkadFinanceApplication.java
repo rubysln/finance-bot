@@ -1,13 +1,12 @@
-package ru.ruby.getMoney;
+package app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 @SpringBootApplication
-public class GetMoneyApplication {
+public class ArkadFinanceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GetMoneyApplication.class, args);
+		SpringApplication.run(ArkadFinanceApplication.class, args);
 	}
 
 }
