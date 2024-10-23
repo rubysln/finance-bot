@@ -7,7 +7,6 @@ import user.User;
 
 public class MessageUtils {
 
-    @Autowired
     private static ArkadBotService service;
     public static void sendMessage(User user, String text){
         SendMessage message = new SendMessage();

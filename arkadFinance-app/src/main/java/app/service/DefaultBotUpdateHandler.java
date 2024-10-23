@@ -5,6 +5,7 @@ import app.utils.MessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import services.UserService;
@@ -42,9 +43,7 @@ public class DefaultBotUpdateHandler implements UpdateHandler {
             newUser.setFirstName(message.getFrom().getFirstName());
             newUser.setLastName(message.getFrom().getLastName());
             userService.postUser(newUser);
+            System.out.println("user saved!" + newUser.getUsername());
         }
-
-        String messageText = MessageFormat.format("Добро пожаловать {0}!", user.getUsername());
-        MessageUtils.sendMessage(user, messageText);
     }
 }

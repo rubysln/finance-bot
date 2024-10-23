@@ -17,7 +17,7 @@ public interface UserService {
 
     User getUserByChatId(Long chatId);
 
-    User postUser(User object);
+    void postUser(User object);
 
     void deleteUserByChatId(Long chatId);
 }

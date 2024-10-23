@@ -12,8 +12,8 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "finance.incomes")
 @Entity
+@Table(name = "incomes", schema = "finance")
 public class Income {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class Income {
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name = "chat_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Temporal(TemporalType.DATE)

@@ -6,6 +6,7 @@ import finance.Income;
 import finance.Savings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import repositories.ExpenseRepository;
 import repositories.GoalRepository;
 import repositories.IncomeRepository;
@@ -14,7 +15,7 @@ import services.FinanceService;
 
 import java.util.List;
 
-@Component
+@Service
 public class FinanceServiceImpl implements FinanceService {
 
     @Autowired

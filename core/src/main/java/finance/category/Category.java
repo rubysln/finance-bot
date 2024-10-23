@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-
+@Table(name = "category", schema = "finance")
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

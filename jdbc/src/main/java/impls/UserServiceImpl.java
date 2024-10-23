@@ -1,18 +1,21 @@
 package impls;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import repositories.UserRepository;
 import services.UserService;
 import user.User;
 
 import java.util.List;
 
-@Component
+@Service
 public class UserServiceImpl implements UserService {
+    private final UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public List<User> getUsers() {
@@ -30,8 +33,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User postUser(User object) {
-        return userRepository.save(object);
+    public void postUser(User object) {
+        userRepository.save(object);
     }
 
     @Override
