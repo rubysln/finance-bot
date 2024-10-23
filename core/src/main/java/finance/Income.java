@@ -5,13 +5,14 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import user.User;
 
 import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "incomes")
+@Table(name = "finance.incomes")
 @Entity
 public class Income {
     @Id
@@ -23,6 +24,10 @@ public class Income {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "chat_id")
+    private User user;
 
     @Temporal(TemporalType.DATE)
     private Date incomeDate;

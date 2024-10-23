@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 public class CategoryType {
+
+    private static String INCOMES_SYS_NAME = "income";
+    private static String EXPENSE_SYS_NAME = "expense";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

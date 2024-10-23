@@ -9,5 +9,12 @@
     </parent>
 
     <artifactId>arkadFinance-app</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>ru.ruby</groupId>
+            <artifactId>jdbc</artifactId>
+            <version>0</version>
+        </dependency>
+    </dependencies>
 
 </project>

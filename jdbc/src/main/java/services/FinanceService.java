@@ -1,14 +1,22 @@
 package services;
 
 import finance.Expense;
+import finance.Goal;
 import finance.Income;
+import finance.Savings;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface FinanceService {
 
     /*
         Finance
+     */
+
+    /*
+        Incomes
      */
 
     List<Income> getIncomes();
@@ -21,6 +29,10 @@ public interface FinanceService {
 
     void deleteIncome(Long id);
 
+    /*
+        Expense
+     */
+
     List<Expense> getExpenses();
 
     long getCountExpenses();
@@ -30,4 +42,29 @@ public interface FinanceService {
     Expense postExpense(Expense object);
 
     void deleteExpense(Long id);
+
+    /*
+        Goals
+     */
+
+    List<Goal> getGoals();
+
+    long getCountGoals();
+
+    Goal getGoalById(Long id);
+
+    Goal postGoal(Goal object);
+
+    void deleteGoal(Long id);
+
+
+    /*
+        Savings
+     */
+
+    Savings getSavingsById(Long id);
+
+    Savings postSavings(Savings object);
+
+    void deleteSavings(Long id);
 }
