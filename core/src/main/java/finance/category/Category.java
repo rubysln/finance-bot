@@ -16,11 +16,11 @@ public class Category {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "category_type_id")
-    private CategoryType type;
+    @JoinColumn(name = "category_type_id", nullable = false)
+    private CategoryType categoryType;
 
     public Category(String name, CategoryType type) {
         this.name = name;
-        this.type = type;
+        this.categoryType = type;
     }
 }

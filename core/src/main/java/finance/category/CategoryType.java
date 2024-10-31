@@ -12,12 +12,17 @@ import lombok.NoArgsConstructor;
 @Table(name = "category_type", schema = "finance")
 public class CategoryType {
 
-    private static String INCOMES_SYS_NAME = "income";
-    private static String EXPENSE_SYS_NAME = "expense";
+    public static final String INCOMES_SYS_NAME = "income";
+    public static final String EXPENSE_SYS_NAME = "expense";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
+    private String sysName;
+
+    public CategoryType(String sys_name){
+        this.sysName = sys_name;
+    }
 }

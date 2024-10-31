@@ -4,7 +4,10 @@ import finance.Expense;
 import finance.Goal;
 import finance.Income;
 import finance.Savings;
+import finance.category.Category;
+import finance.category.CategoryType;
 import org.springframework.stereotype.Service;
+import user.User;
 
 import java.util.List;
 
@@ -25,7 +28,7 @@ public interface FinanceService {
 
     Income getIncomeById(Long id);
 
-    Income postIncome(Income object);
+    User postIncome(Income object);
 
     void deleteIncome(Long id);
 
@@ -39,9 +42,16 @@ public interface FinanceService {
 
     Expense getExpenseById(Long id);
 
-    Expense postExpense(Expense object);
+    User postExpense(Expense object);
 
     void deleteExpense(Long id);
+
+    /*
+        Category
+     */
+
+    List<Category> getCategoriesByCategoryTypeSysName(String sysName);
+    Category getCategoryByName(String name);
 
     /*
         Goals

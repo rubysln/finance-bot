@@ -1,0 +1,9 @@
+package app.service;
+
+public enum UserState {
+    WAITING_FOR_INCOME_AMOUNT,
+    WAITING_FOR_EXPENSE_AMOUNT,
+    WAITING_FOR_INCOME_CATEGORY,
+    WAITING_FOR_EXPENSE_CATEGORY,
+    NOTHING
+}

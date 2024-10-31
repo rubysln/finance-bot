@@ -4,14 +4,12 @@ import finance.Expense;
 import finance.Goal;
 import finance.Income;
 import finance.Savings;
+import finance.category.Category;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import repositories.ExpenseRepository;
-import repositories.GoalRepository;
-import repositories.IncomeRepository;
-import repositories.SavingsRepository;
+import repositories.*;
 import services.FinanceService;
+import user.User;
 
 import java.util.List;
 
@@ -23,10 +21,17 @@ public class FinanceServiceImpl implements FinanceService {
 
     @Autowired
     private ExpenseRepository expenseRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @Autowired
     private GoalRepository goalRepository;
+
     @Autowired
     private SavingsRepository savingsRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public List<Income> getIncomes() {
@@ -44,8 +49,9 @@ public class FinanceServiceImpl implements FinanceService {
     }
 
     @Override
-    public Income postIncome(Income object) {
-        return incomeRepository.save(object);
+    public User postIncome(Income object) {
+        incomeRepository.save(object);
+        return userRepository.getUserByChatId(object.getUser().getChatId());
     }
 
     @Override
@@ -69,13 +75,24 @@ public class FinanceServiceImpl implements FinanceService {
     }
 
     @Override
-    public Expense postExpense(Expense object) {
-        return expenseRepository.save(object);
+    public User postExpense(Expense object) {
+        expenseRepository.save(object);
+        return userRepository.findById(object.getUser().getChatId()).orElse(null);
     }
 
     @Override
     public void deleteExpense(Long id) {
         expenseRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Category> getCategoriesByCategoryTypeSysName(String sysName) {
+        return categoryRepository.findByCategoryTypeSysName(sysName);
+    }
+
+    @Override
+    public Category getCategoryByName(String name){
+        return categoryRepository.findCategoriesByName(name);
     }
 
     @Override
