@@ -37,10 +37,11 @@ public class DefaultBotUpdateHandler implements UpdateHandler {
 
     @Override
     public SendMessage handleUpdate(Update update) {
-        if(update.hasMessage() && update.getMessage().hasText()){
+        if (update.hasMessage() && update.getMessage().hasText()) {
             UserState userState = userStates.getOrDefault(update.getMessage().getChatId(), UserState.NOTHING);
             Message message = update.getMessage();
-            if(userState != UserState.NOTHING){
+            String messageText = update.getMessage().getText();
+            if (userState != UserState.NOTHING) {
                 return switch (userState) {
                     case UserState.WAITING_FOR_INCOME_AMOUNT -> recordIncomeCategory(message);
                     case UserState.WAITING_FOR_INCOME_CATEGORY -> addIncome(message);
@@ -48,23 +49,35 @@ public class DefaultBotUpdateHandler implements UpdateHandler {
                     case UserState.WAITING_FOR_EXPENSE_CATEGORY -> addExpense(message);
                     default -> null;
                 };
+            } else {
+                return switch (messageText) {
+                    case "/start" -> registerUser(message);
+                    case "💰 Добавить доход" -> recordIncomeAmount(message);
+                    case "💸 Добавить расход" -> recordExpenseAmount(message);
+                    case "📄 История доходов" -> getIncomesHistory(message);
+                    case "📄 История расходов" -> getExpenseHistory(message);
+                    default -> null;
+                };
             }
-            String messageText = update.getMessage().getText();
-
-            return switch (messageText) {
-                case "/start" -> registerUser(message);
-                case "💰 Добавить доход" -> recordIncomeAmount(message);
-                case "💸 Добавить расход" -> recordExpenseAmount(message);
-                default -> null;
-            };
-        }
-        else return null;
+        } else return null;
     }
 
-    private SendMessage registerUser(Message message){
+    private SendMessage getIncomesHistory(Message message){
         User user = userService.getUserByChatId(message.getChatId());
 
-        if(user == null){
+        return messageService.sendIncomesHistory(message.getChatId());
+    }
+
+    private SendMessage getExpenseHistory(Message message){
+        User user = userService.getUserByChatId(message.getChatId());
+
+        return messageService.sendExpenseHistory(message.getChatId());
+    }
+
+    private SendMessage registerUser(Message message) {
+        User user = userService.getUserByChatId(message.getChatId());
+
+        if (user == null) {
             user = new User();
             user.setChatId(message.getChatId());
             user.setUsername(message.getFrom().getUserName());
@@ -78,13 +91,13 @@ public class DefaultBotUpdateHandler implements UpdateHandler {
         return messageService.sendMessage(user.getChatId(), messageText, true);
     }
 
-    private SendMessage recordIncomeAmount(Message message){
+    private SendMessage recordIncomeAmount(Message message) {
         userStates.put(message.getChatId(), UserState.WAITING_FOR_INCOME_AMOUNT);
         String messageText = "💰 Введите сумму дохода: ";
         return messageService.sendMessage(message.getChatId(), messageText, false);
     }
 
-    private SendMessage recordIncomeCategory(Message message){
+    private SendMessage recordIncomeCategory(Message message) {
         userStates.put(message.getChatId(), UserState.WAITING_FOR_INCOME_CATEGORY);
         userAmounts.put(message.getChatId(), Integer.parseInt(message.getText()));
         String messageText = "💰 Выберите категорию дохода на вашей клавиатуре: ";
@@ -92,7 +105,7 @@ public class DefaultBotUpdateHandler implements UpdateHandler {
         return messageService.sendMessageWithCategory(message.getChatId(), messageText, categories);
     }
 
-    private SendMessage addIncome(Message message){
+    private SendMessage addIncome(Message message) {
         userStates.put(message.getChatId(), UserState.NOTHING);
         Income income = new Income();
         income.setCategory(financeService.getCategoryByName(message.getText()));
@@ -104,13 +117,13 @@ public class DefaultBotUpdateHandler implements UpdateHandler {
         return messageService.sendActualInfo(user);
     }
 
-    private SendMessage recordExpenseAmount(Message message){
+    private SendMessage recordExpenseAmount(Message message) {
         userStates.put(message.getChatId(), UserState.WAITING_FOR_EXPENSE_AMOUNT);
         String messageText = "💸 Введите сумму расхода: ";
         return messageService.sendMessage(message.getChatId(), messageText, false);
     }
 
-    private SendMessage recordExpenseCategory(Message message){
+    private SendMessage recordExpenseCategory(Message message) {
         userStates.put(message.getChatId(), UserState.WAITING_FOR_EXPENSE_CATEGORY);
         userAmounts.put(message.getChatId(), Integer.parseInt(message.getText()));
         String messageText = "💸 Выберите категорию расхода на вашей клавиатуре: ";
@@ -118,7 +131,7 @@ public class DefaultBotUpdateHandler implements UpdateHandler {
         return messageService.sendMessageWithCategory(message.getChatId(), messageText, categories);
     }
 
-    private SendMessage addExpense(Message message){
+    private SendMessage addExpense(Message message) {
         userStates.put(message.getChatId(), UserState.NOTHING);
         Expense expense = new Expense();
         expense.setCategory(financeService.getCategoryByName(message.getText()));

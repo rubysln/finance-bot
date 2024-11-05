@@ -3,6 +3,7 @@ package app.service;
 
 import app.config.BotConfig;
 import app.handler.UpdateHandler;
+import app.utils.MessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,8 @@ public class ArkadFinanceBot extends TelegramLongPollingBot {
 
     @Autowired
     private UpdateHandler updateHandler;
+    @Autowired
+    private MessageService messageService;
 
     public ArkadFinanceBot(BotConfig config) {
         this.config = config;
@@ -49,9 +52,8 @@ public class ArkadFinanceBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         SendMessage message = updateHandler.handleUpdate(update);
         if(message == null){
-            message = new SendMessage();
-            message.setChatId(update.getMessage().getChatId());
-            message.setText("Не удалось обработать сообщение");
+            var messageText = "❌ Не удалось обработать сообщение";
+            message = messageService.sendMessage(update.getMessage().getChatId(), messageText, true);
         }
         try {
             execute(message);

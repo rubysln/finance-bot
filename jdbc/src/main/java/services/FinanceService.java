@@ -22,7 +22,7 @@ public interface FinanceService {
         Incomes
      */
 
-    List<Income> getIncomes();
+    List<Income> getIncomes(Long chatId);
 
     long getCountIncomes();
 
@@ -36,7 +36,7 @@ public interface FinanceService {
         Expense
      */
 
-    List<Expense> getExpenses();
+    List<Expense> getExpenses(Long chatId);
 
     long getCountExpenses();
 

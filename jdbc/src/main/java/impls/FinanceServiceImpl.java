@@ -34,8 +34,8 @@ public class FinanceServiceImpl implements FinanceService {
     private UserRepository userRepository;
 
     @Override
-    public List<Income> getIncomes() {
-        return incomeRepository.findAll();
+    public List<Income> getIncomes(Long chatId) {
+        return incomeRepository.findIncomesByUserChatId(chatId);
     }
 
     @Override
@@ -60,8 +60,8 @@ public class FinanceServiceImpl implements FinanceService {
     }
 
     @Override
-    public List<Expense> getExpenses() {
-        return expenseRepository.findAll();
+    public List<Expense> getExpenses(Long chatId) {
+        return expenseRepository.findExpenseByUserChatId(chatId);
     }
 
     @Override
